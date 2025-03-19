@@ -18,15 +18,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.fatec.aula_01.model.UserData
 import com.fatec.aula_01.ui.theme.BRANCO
 import com.fatec.aula_01.ui.theme.PRETO
+import com.fatec.aula_01.ui.theme.Typography
 import com.fatec.aula_01.ui.theme.VERDE_ESCURO
 
 @Composable
-fun InfoForm (
-
-) {
+fun InfoForm(
+    paddingTop: Dp,
+    paddingBottom: Dp,
+    onClick: () -> Unit
+) : UserData {
     var name by remember {
         mutableStateOf("")
     }
@@ -35,13 +40,18 @@ fun InfoForm (
         mutableStateOf("")
     }
 
-    var telefone by remember {
+    var phoneNumber by remember {
         mutableStateOf("")
     }
 
-    Column (
+    Column(
         modifier = Modifier
-            .padding(20.dp)
+            .padding(
+                top = paddingTop,
+                bottom = paddingBottom,
+                start = 20.dp,
+                end = 20.dp
+            )
             .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(
             space = 10.dp,
@@ -109,9 +119,9 @@ fun InfoForm (
         )
 
         OutlinedTextField(
-            value = telefone,
+            value = phoneNumber,
             onValueChange = {
-                telefone = it
+                phoneNumber = it
             },
             label = {
                 Text(
@@ -144,9 +154,7 @@ fun InfoForm (
         )
 
         Button(
-            onClick = {
-
-            },
+            onClick = onClick,
             modifier = Modifier
                 .fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(
@@ -155,8 +163,15 @@ fun InfoForm (
             )
         ) {
             Text(
-                text = "Cadastrar"
+                text = "Cadastrar",
+                style = Typography.bodySmall
             )
         }
     }
+
+    return UserData(
+        name = name,
+        email = email,
+        phoneNumber = phoneNumber
+    )
 }

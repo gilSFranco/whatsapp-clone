@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.sp
 import com.fatec.aula_01.model.ChatMessage
 import com.fatec.aula_01.ui.theme.BRANCO
 import com.fatec.aula_01.ui.theme.PRETO
+import com.fatec.aula_01.ui.theme.VERDE_ESCURO
 
 @Composable
 fun ChatMessageItem (
@@ -38,12 +39,12 @@ fun ChatMessageItem (
                 .clip(
                     shape =
                     if (message.user == 1)
-                        RoundedCornerShape(16.dp, 16.dp, 16.dp, 16.dp)
-                    else
                         RoundedCornerShape(16.dp, 0.dp, 0.dp, 16.dp)
+                    else
+                        RoundedCornerShape(0.dp, 16.dp, 16.dp, 0.dp)
                 ),
             colors = CardDefaults.cardColors(
-                containerColor = PRETO,
+                containerColor = if (message.user == 1) VERDE_ESCURO else PRETO,
                 contentColor = BRANCO
             ),
             elevation = CardDefaults.elevatedCardElevation(

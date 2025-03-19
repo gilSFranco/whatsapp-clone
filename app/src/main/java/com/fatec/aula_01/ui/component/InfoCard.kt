@@ -1,6 +1,5 @@
 package com.fatec.aula_01.ui.component
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,16 +17,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.fatec.aula_01.model.UserData
 import com.fatec.aula_01.ui.theme.BRANCO
+import com.fatec.aula_01.ui.theme.Typography
 import com.fatec.aula_01.ui.theme.VERDE_ESCURO
 
 @Composable
 fun InfoCard(
     onDismiss: () -> Unit,
     innerPadding: Dp,
-    infoName: String,
-    infoEmail: String,
-    infoTelefone: String,
+    userData: UserData
 ) {
     Column {
         Card(
@@ -53,17 +52,17 @@ fun InfoCard(
                 Spacer(modifier = Modifier.height(20.dp))
 
                 Text(
-                    "Nome: $infoName",
+                    "Nome: ${userData.name}",
                     style = MaterialTheme.typography.bodyLarge
                 )
 
                 Text(
-                    "Email: $infoEmail",
+                    "Email: ${userData.email}",
                     style = MaterialTheme.typography.bodyLarge
                 )
 
                 Text(
-                    "Telefone: $infoTelefone",
+                    "Telefone: ${userData.phoneNumber}",
                     style = MaterialTheme.typography.bodyLarge
                 )
 
@@ -77,12 +76,11 @@ fun InfoCard(
                     )
                 ) {
                     Text(
-                        text = "Fechar"
+                        text = "Fechar",
+                        style = Typography.bodySmall
                     )
                 }
             }
         }
-
-        InfoForm()
     }
 }
