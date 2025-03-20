@@ -1,11 +1,12 @@
 package com.fatec.aula_01.ui.screen.chat
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Info
@@ -23,7 +24,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.fatec.aula_01.model.ChatMessage
@@ -31,14 +31,16 @@ import com.fatec.aula_01.model.UserData
 import com.fatec.aula_01.ui.component.Chat
 import com.fatec.aula_01.ui.component.InfoCard
 import com.fatec.aula_01.ui.component.InfoForm
+import com.fatec.aula_01.ui.theme.BRANCO
 import com.fatec.aula_01.ui.theme.PRETO
+import com.fatec.aula_01.ui.theme.Typography
 import com.fatec.aula_01.ui.theme.VERDE_ESCURO
 import com.fatec.aula_01.view.model.InfoFormEvent
 import com.fatec.aula_01.view.model.InfoFormViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChatScreen (
+fun ChatScreen(
 
 ) {
     val viewModel = viewModel<InfoFormViewModel>()
@@ -68,11 +70,23 @@ fun ChatScreen (
         mutableStateOf(UserData())
     }
 
-    Scaffold (
+    val isRotate = remember {
+        mutableStateOf(false)
+    }
+
+    val rotation by animateFloatAsState(
+        targetValue = if (isRotate.value) 45F else 0F,
+        animationSpec = tween(
+            durationMillis = 300
+        ),
+        label = "rotationAnimation"
+    )
+
+    Scaffold(
         topBar = {
-            TopAppBar (
+            TopAppBar(
                 title = {
-                    Row (
+                    Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(20.dp)
                     ) {
@@ -80,27 +94,33 @@ fun ChatScreen (
                             Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "",
                             modifier = Modifier
-                                .scale(1.2F)
+                                .scale(1.2F),
+                            tint = VERDE_ESCURO
                         )
 
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(10.dp)
-                        ) {
-                            Icon(
-                                Icons.Filled.AccountCircle,
-                                contentDescription = "",
-                                modifier = Modifier
-                                    .scale(1.2F)
-                            )
+                        if (!showInfo) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(10.dp)
+                            ) {
+                                Icon(
+                                    Icons.Filled.AccountCircle,
+                                    contentDescription = "",
+                                    modifier = Modifier
+                                        .scale(1.2F)
+                                )
 
-                            Text("Gilmar")
+                                Text(
+                                    "Gilmar",
+                                    style = Typography.titleMedium
+                                )
+                            }
                         }
                     }
 
                 },
                 actions = {
-                    IconButton (
+                    IconButton(
                         onClick = {
                             showInfo = true
                         }
@@ -113,23 +133,25 @@ fun ChatScreen (
                         )
                     }
 
-                    IconButton (
+                    IconButton(
                         onClick = {
                             showForm = !showForm
+                            isRotate.value = !isRotate.value
                         }
                     ) {
                         Icon(
                             imageVector = Icons.Filled.Add,
                             contentDescription = "",
-                            modifier = if (showForm) Modifier
-                                .rotate(45F)
-                                .scale(1.2F) else Modifier.scale(1.2F)
+                            modifier = Modifier
+                                .rotate(rotation)
+                                .scale(1.2F)
                         )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     titleContentColor = PRETO,
-                    actionIconContentColor = VERDE_ESCURO
+                    actionIconContentColor = VERDE_ESCURO,
+                    containerColor = BRANCO
                 )
             )
         },
@@ -139,7 +161,8 @@ fun ChatScreen (
                     onDismiss = {
                         showInfo = false
                     },
-                    innerPadding = innerPadding.calculateTopPadding(),
+                    paddingTop = innerPadding.calculateTopPadding(),
+                    paddingBottom = innerPadding.calculateBottomPadding(),
                     userData = UserData(
                         name = state.name,
                         email = state.email,
@@ -156,6 +179,9 @@ fun ChatScreen (
                             viewModel.onEvent(InfoFormEvent.NameChanged(userData.name))
                             viewModel.onEvent(InfoFormEvent.EmailChanged(userData.email))
                             viewModel.onEvent(InfoFormEvent.PhoneNumberChanged(userData.phoneNumber))
+
+                            showForm = false
+                            isRotate.value = !isRotate.value
                         }
                     )
                 } else {
@@ -185,6 +211,7 @@ fun ChatScreen (
                 }
 
             }
-        }
+        },
+        containerColor = BRANCO
     )
 }

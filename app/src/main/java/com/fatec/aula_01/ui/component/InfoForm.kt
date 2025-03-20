@@ -65,12 +65,14 @@ fun InfoForm(
             },
             label = {
                 Text(
-                    text = "Nome"
+                    text = "Nome",
+                    style = Typography.bodyMedium
                 )
             },
             placeholder = {
                 Text(
-                    text = "Digite seu nome"
+                    text = "Digite seu nome",
+                    style = Typography.bodyMedium
                 )
             },
             modifier = Modifier
@@ -95,12 +97,14 @@ fun InfoForm(
             },
             label = {
                 Text(
-                    text = "Email"
+                    text = "Email",
+                    style = Typography.bodyMedium
                 )
             },
             placeholder = {
                 Text(
-                    text = "Digite seu email"
+                    text = "Digite seu email",
+                    style = Typography.bodyMedium
                 )
             },
             modifier = Modifier
@@ -125,12 +129,14 @@ fun InfoForm(
             },
             label = {
                 Text(
-                    text = "Telefone"
+                    text = "Telefone",
+                    style = Typography.bodyMedium
                 )
             },
             placeholder = {
                 Text(
-                    text = "Digite seu telefone"
+                    text = "Digite seu telefone",
+                    style = Typography.bodyMedium
                 )
             },
             modifier = Modifier

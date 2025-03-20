@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class InfoFormViewModel (
-
 ) : ViewModel() {
     var state by mutableStateOf(UserData())
 

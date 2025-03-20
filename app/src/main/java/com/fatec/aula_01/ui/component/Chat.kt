@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.fatec.aula_01.model.ChatMessage
 import com.fatec.aula_01.ui.theme.BRANCO
 import com.fatec.aula_01.ui.theme.PRETO
+import com.fatec.aula_01.ui.theme.Typography
 import com.fatec.aula_01.ui.theme.VERDE_ESCURO
 
 @Composable
@@ -69,7 +70,10 @@ fun Chat(
                     .padding(8.dp)
                     .weight(1f),
                 placeholder = {
-                    Text("Digite sua mensagem")
+                    Text(
+                        "Digite sua mensagem",
+                        style = Typography.bodyMedium
+                    )
                 },
                 shape = RoundedCornerShape(16.dp),
                 colors = OutlinedTextFieldDefaults.colors(
