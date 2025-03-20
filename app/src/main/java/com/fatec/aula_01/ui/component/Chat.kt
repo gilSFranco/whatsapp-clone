@@ -9,31 +9,22 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.fatec.aula_01.model.ChatMessage
 import com.fatec.aula_01.ui.theme.BRANCO
-import com.fatec.aula_01.ui.theme.PRETO
-import com.fatec.aula_01.ui.theme.Typography
 import com.fatec.aula_01.ui.theme.VERDE_ESCURO
 
 @Composable
 fun Chat(
     chatMessages: MutableList<ChatMessage>,
     messageText: String,
-    currentUser: Int,
     onMessageChange: (String) -> Unit,
     onSendClick: () -> Unit,
     innerPadding: PaddingValues
@@ -63,28 +54,13 @@ fun Chat(
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            OutlinedTextField(
+            ChatTextBox(
                 value = messageText,
                 onValueChange = onMessageChange,
                 modifier = Modifier
                     .padding(8.dp)
-                    .weight(1f),
-                placeholder = {
-                    Text(
-                        "Digite sua mensagem",
-                        style = Typography.bodyMedium
-                    )
-                },
-                shape = RoundedCornerShape(16.dp),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = VERDE_ESCURO,
-                    unfocusedBorderColor = PRETO,
-                    cursorColor = VERDE_ESCURO,
-                    focusedLabelColor = VERDE_ESCURO,
-                    unfocusedLabelColor = PRETO,
-                    focusedPlaceholderColor = VERDE_ESCURO,
-                    focusedTextColor = VERDE_ESCURO
-                )
+                    .weight(1F),
+                placeholder = "Digite sua mensagem"
             )
 
             FloatingActionButton(
