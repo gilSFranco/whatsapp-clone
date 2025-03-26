@@ -9,17 +9,23 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.fatec.aula_01.model.ChatMessage
 import com.fatec.aula_01.ui.theme.BRANCO
 import com.fatec.aula_01.ui.theme.VERDE_ESCURO
+import kotlinx.coroutines.launch
 
 @Composable
 fun Chat(
@@ -29,6 +35,8 @@ fun Chat(
     onSendClick: () -> Unit,
     innerPadding: PaddingValues
 ) {
+    val listState = rememberLazyListState()
+
     Column (
         modifier = Modifier
             .padding(innerPadding)
@@ -39,7 +47,8 @@ fun Chat(
     ) {
         LazyColumn (
             modifier = Modifier
-                .weight(1f)
+                .weight(1f),
+            state = listState
         ) {
             items(
                 chatMessages
@@ -47,6 +56,10 @@ fun Chat(
                 message -> ChatMessageItem(message)
             }
         }
+
+        ScrollToTopButton(
+            state = listState
+        )
 
         Row (
             modifier = Modifier
@@ -60,7 +73,9 @@ fun Chat(
                 modifier = Modifier
                     .padding(8.dp)
                     .weight(1F),
-                placeholder = "Digite sua mensagem"
+                placeholder = "Digite sua mensagem",
+                keyboardType = KeyboardType.Text,
+                lastOne = true
             )
 
             FloatingActionButton(

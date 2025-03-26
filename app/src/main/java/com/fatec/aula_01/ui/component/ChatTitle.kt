@@ -17,7 +17,7 @@ import com.fatec.aula_01.ui.theme.VERDE_ESCURO
 @Composable
 fun ChatTitle (
     userName: String,
-    showInfo: Boolean
+    showTitle: Boolean
 ) {
     val name = userName.split(" ")[0]
 
@@ -32,7 +32,7 @@ fun ChatTitle (
             color = VERDE_ESCURO
         )
 
-        if (!showInfo) {
+        if (showTitle) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(10.dp)

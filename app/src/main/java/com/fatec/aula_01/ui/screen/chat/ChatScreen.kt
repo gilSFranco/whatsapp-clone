@@ -26,14 +26,11 @@ import com.fatec.aula_01.ui.component.InfoForm
 import com.fatec.aula_01.ui.theme.BRANCO
 import com.fatec.aula_01.ui.theme.PRETO
 import com.fatec.aula_01.ui.theme.VERDE_ESCURO
-import com.fatec.aula_01.view.model.InfoFormEvent
 import com.fatec.aula_01.view.model.InfoFormViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChatScreen(
-
-) {
+fun ChatScreen() {
     val viewModel = viewModel<InfoFormViewModel>()
     val state = viewModel.state
 
@@ -41,8 +38,12 @@ fun ChatScreen(
         mutableStateOf(false)
     }
 
-    var showForm by remember {
+    var showForm = remember {
         mutableStateOf(false)
+    }
+
+    var showTitle = remember {
+        mutableStateOf(true)
     }
 
     val chatMessages = remember {
@@ -55,10 +56,6 @@ fun ChatScreen(
 
     var currentUser by remember {
         mutableIntStateOf(1)
-    }
-
-    var userData by remember {
-        mutableStateOf(UserData())
     }
 
     val isRotate = remember {
@@ -79,19 +76,21 @@ fun ChatScreen(
                 title = {
                     ChatTitle(
                         userName = state.name,
-                        showInfo = showInfo
+                        showTitle = showTitle.value
                     )
                 },
                 actions = {
                     ChatActions(
                         onClickInfo = {
                             showInfo = true
+                            showTitle.value = false
                         },
                         iconInfo = Icons.Filled.Info,
                         modifierInfo = Modifier
                             .scale(1.2F),
                         onClickForm = {
-                            showForm = !showForm
+                            showTitle.value = !showTitle.value
+                            showForm.value = !showForm.value
                             isRotate.value = !isRotate.value
                         },
                         iconForm = Icons.Filled.Add,
@@ -112,6 +111,11 @@ fun ChatScreen(
                 InfoCard(
                     onDismiss = {
                         showInfo = false
+                        if (showForm.value) {
+                            showTitle.value = false
+                        } else {
+                            showTitle.value = true
+                        }
                     },
                     paddingTop = innerPadding.calculateTopPadding(),
                     paddingBottom = innerPadding.calculateBottomPadding(),
@@ -123,18 +127,14 @@ fun ChatScreen(
                 )
             } else {
 
-                if (showForm) {
-                    userData = InfoForm(
+                if (showForm.value) {
+                     InfoForm(
                         paddingTop = innerPadding.calculateTopPadding(),
                         paddingBottom = innerPadding.calculateBottomPadding(),
-                        onClick = {
-                            viewModel.onEvent(InfoFormEvent.NameChanged(userData.name))
-                            viewModel.onEvent(InfoFormEvent.EmailChanged(userData.email))
-                            viewModel.onEvent(InfoFormEvent.PhoneNumberChanged(userData.phoneNumber))
-
-                            showForm = false
-                            isRotate.value = !isRotate.value
-                        }
+                        viewModel = viewModel,
+                        isRotate = isRotate,
+                        showForm = showForm,
+                        showTitle = showTitle
                     )
                 } else {
                     Chat(

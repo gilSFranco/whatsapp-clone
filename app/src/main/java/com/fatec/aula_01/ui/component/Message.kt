@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -18,10 +19,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
 import com.fatec.aula_01.ui.theme.BRANCO
 import com.fatec.aula_01.ui.theme.PRETO
@@ -33,6 +34,8 @@ fun Message(
     user: Int,
     text: String
 ) {
+    val screenWidth = LocalConfiguration.current.screenWidthDp.dp
+
     var showMore by remember {
         mutableStateOf(false)
     }
@@ -43,7 +46,9 @@ fun Message(
 
     Card(
         modifier = Modifier
-            .fillMaxWidth(0.75F)
+            .widthIn(
+                max = screenWidth - 100.dp
+            )
             .padding(8.dp)
             .clip(
                 shape =
